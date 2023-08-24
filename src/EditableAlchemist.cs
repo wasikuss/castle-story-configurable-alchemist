@@ -13,18 +13,10 @@ namespace CastleStory_ConfigurableAlchemist {
 
         private ConfigurableAlchemist() { }
 
-        public Config.Config Config { get; private set; }
+        public Config.Config CurrentConfig { get; private set; }
 
         public void Start(Config.Config config) {
-            Config = config;
-            Plugin.Instance.ScheduleCoroutine(HandleConfig());
-        }
-
-        private IEnumerator HandleConfig() {
-            var backpack = GameObject.Find("PersitantGOs").transform.Find("Factory/Accessories/Backpack").transform;
-            var projectileWeapon = backpack.GetComponent<Brix.Game.AI.ProjectileWeapon>();
-            projectileWeapon.AmmoCountGetter = Config.DefaultAmmo;
-            yield break;
+            CurrentConfig = config;
         }
     }
 }

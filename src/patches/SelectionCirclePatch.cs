@@ -12,9 +12,12 @@ namespace CastleStory_ConfigurableAlchemist {
     public class SelectionCirclePatch { 
         
         static bool Prefix(SelectionCircle __instance, Labor labor) {
-            if(labor.Occupation.CurrentJob == Occupation.Job.Alchemist && ConfigurableAlchemist.Instance != null && ConfigurableAlchemist.Instance.Config.MaxAmmo > 0) {
+            if(
+                labor.Occupation.CurrentJob == Occupation.Job.Alchemist && ConfigurableAlchemist.Instance != null && ConfigurableAlchemist.Instance.CurrentConfig.MaxAmmo > 0 &&
+                (ConfigurableAlchemist.Instance.CurrentConfig.IsGlobal || labor.faction.IsOwnedByMe)
+            ) {
                 __instance.SecondaryColor(SelectionCircle.SecondaryColors.Heat);
-                __instance.Stamina(labor.GetComponent<CharacterState>().AmmoCount / (float)ConfigurableAlchemist.Instance.Config.MaxAmmo);
+                __instance.Stamina(labor.GetComponent<CharacterState>().AmmoCount / (float)ConfigurableAlchemist.Instance.CurrentConfig.MaxAmmo);
                 __instance.ShowStamina(Affiliation.BelongsToAllied(labor.gameObject));
                 return false;
             }
